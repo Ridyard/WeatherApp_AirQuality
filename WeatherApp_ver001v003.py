@@ -1,4 +1,17 @@
 
+# application will take a given zipcode and lookup the air quality, displaying the index rating and color warning
+# uses airnow api (outlined below)
+
+# https://www.airnow.gov/?reportingArea=Port%20Angeles&stateCode=WA website that looks up air quality (among other weather elements) via zipcode
+# https://docs.airnowapi.org/ api page. Log-in and use the web services page > in a json format (in the dropdown)
+ 
+# weather api urls: (used multiple zipcodes for testing of different air quality conditions)
+# https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=20002&distance=25&API_KEY=DACC23C2-B201-466A-8637-5C414E43DA8D
+# https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=98362&distance=25&API_KEY=DACC23C2-B201-466A-8637-5C414E43DA8D
+
+# weather app output (reference)
+# [{"DateObserved":"2023-10-30","HourObserved":5,"LocalTimeZone":"EST","ReportingArea":"Metropolitan Washington","StateCode":"DC","Latitude":38.919,"Longitude":-77.013,"ParameterName":"O3","AQI":6,"Category":{"Number":1,"Name":"Good"}},{"DateObserved":"2023-10-30","HourObserved":5,"LocalTimeZone":"EST","ReportingArea":"Metropolitan Washington","StateCode":"DC","Latitude":38.919,"Longitude":-77.013,"ParameterName":"PM2.5","AQI":33,"Category":{"Number":1,"Name":"Good"}},{"DateObserved":"2023-10-30","HourObserved":5,"LocalTimeZone":"EST","ReportingArea":"Metropolitan Washington","StateCode":"DC","Latitude":38.919,"Longitude":-77.013,"ParameterName":"PM10","AQI":11,"Category":{"Number":1,"Name":"Good"}}]
+
 from tkinter import *
 import requests, json
 
@@ -15,13 +28,6 @@ def zipLookup():
     # clear any existing label & colour before making the api call
     my_label.config(text="", bg=my_label.master.cget('bg'))
     
-    # weather api urls: (used multiple zipcodes for testing of different air quality conditions)
-    # https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=20002&distance=25&API_KEY=DACC23C2-B201-466A-8637-5C414E43DA8D
-    # https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=98362&distance=25&API_KEY=DACC23C2-B201-466A-8637-5C414E43DA8D
-
-    # weather app output (reference)
-    # [{"DateObserved":"2023-10-30","HourObserved":5,"LocalTimeZone":"EST","ReportingArea":"Metropolitan Washington","StateCode":"DC","Latitude":38.919,"Longitude":-77.013,"ParameterName":"O3","AQI":6,"Category":{"Number":1,"Name":"Good"}},{"DateObserved":"2023-10-30","HourObserved":5,"LocalTimeZone":"EST","ReportingArea":"Metropolitan Washington","StateCode":"DC","Latitude":38.919,"Longitude":-77.013,"ParameterName":"PM2.5","AQI":33,"Category":{"Number":1,"Name":"Good"}},{"DateObserved":"2023-10-30","HourObserved":5,"LocalTimeZone":"EST","ReportingArea":"Metropolitan Washington","StateCode":"DC","Latitude":38.919,"Longitude":-77.013,"ParameterName":"PM10","AQI":11,"Category":{"Number":1,"Name":"Good"}}]
-
     try:
         # get the info from the url... we concatenate the given zipcode into the url
         api_req = requests.get("https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=" + zip.get() + "&distance=25&API_KEY=DACC23C2-B201-466A-8637-5C414E43DA8D")
